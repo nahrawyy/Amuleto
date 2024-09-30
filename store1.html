@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        html{
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            
+        }
+        header {
+            background-color: #2c3e50;
+            color: rgba(255, 255, 255, 0);
+            padding: 1em;
+            height: 70px; /* زيادة الارتفاع للسماح بمساحة أكبر */
+            display: flex;
+            flex-direction: column; /* ترتيب العناصر عموديًا */
+            align-items: center; /* توسيط العناصر */
+            position: relative;
+        }
+
+        .nav {
+            
+            padding: 0;
+            list-style: none;
+            position: absolute; /* استخدم position absolute لتثبيت nav في أسفل الـ header */
+            bottom: 5px; 
+            display: flex;
+            position:absolute;
+            margin-top: 20px; /* إضافة هامش علوي بقيمة 5 بكسل */
+            text-align: center;
+        }
+        .nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0 15px; /* مسافة بين الروابط */
+            display: inline-flex;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .nav a:hover {
+            background-color: #34495e;
+            color: #ecf0f1;
+        }
+        .contact-buttons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .contact-buttons a {
+            color: white;
+            text-decoration: none;
+            padding: 1vh;
+            background: #1abc9c;
+            border-radius: 50%;
+            margin-left: 5px;
+            display: inline-block;
+            font-size: 1.5em;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        .contact-buttons a.telegram {
+            background: #0088cc;
+        }
+        .contact-buttons a.whatsapp {
+            background: #25D366;
+        }
+        .contact-buttons a.call-request {
+            background: #e74c3c;
+        }
+        .contact-buttons a:hover {
+            background-color: #16a085; /* Darker shade for hover effect */
+        }
+        .language-buttons {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            margin-top: 15px;
+        }
+        .language-buttons button {
+            margin-left: 5px; /* إضافة مسافة بين الأزرار */
+            padding: 5px 10px;
+            margin-top: 10px;
+            background-color: #34495e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .language-buttons button:hover {
+            background-color: #34495e;
+        }
+        .container {
+            width:max-content;
+            margin: 0 auto;
+            overflow: visible;
+            background:#15ff0000;
+
+        }
+        .hero {
+            background: url('https://www.luxurylifestylemag.co.uk/wp-content/uploads/2022/02/ulysse-pointcheval-j6LLsAehUo-unsplash.jpg') no-repeat center center/cover;
+            height: 500px;
+            padding-top: 50px;
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+        }
+        .hero h1 {
+            margin: 0;
+            padding-top: 25px;
+            font-size: 4em;
+            font-weight: 900;
+            font-family: Copperplate, Papyrus, fantasy;
+            transition: transform 1s ease;
+            color: rgb(251, 255, 0);
+            text-shadow: 1px 1px 1px #000025, 1px 1.5px 1px #000025,
+            1px 2px 1px #000025,1px 2.5px 1px #000025,
+            1px 3px 1px #000025 , 1px 4px 1px #e6ff02 ;
+        }
+        .hero h1:hover {
+            transform: scale(1.5);
+            display: flex;
+            justify-content: center;
+            margin-bottom: 7px;
+            color: rgb(4, 181, 187);
+            text-shadow: 1px 1px 1px #000025, 1px 1.5px 1px #000025,
+            1px 2px 1px #000025,1px 2.5px 1px #000025,
+            1px 3px 1px #000025 , 1px 4px 1px #000025 ;
+        }
+        .imo{
+            border: 10px #ecf0f1;
+            max-width: 100%;
+            height: 300px;
+            border-radius: 50%;
+            margin-top: 80px;
+            border: 10px solid #00ffea;
+            
+        }
+        .imo:hover{
+            opacity: 0.2;
+        }
+
+
+        .search-container {
+            position: absolute; /* استخدام موضع مطلق */
+            margin: 30px;
+            left: 50%; /* وضعه في منتصف الصفحة أفقياً */
+            transform: translate(-50%, 0%); /* تصحيح الموقع إلى المنتصف تماماً */
+            display: flex; /* استخدام الفليكس */
+            justify-content: center; /* توسيط المحتوى */
+            align-items: center; /* محاذاة العناصر عمودياً */
+            height: auto;
+            width: max-content;
+            background-color: #f4f4f4;
+            border-radius: 25px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            padding: 10px; /* إضافة بعض الحشوة */
+            z-index: 10;
+            
+        }
+
+        .search-input {
+            border: none;
+            border-radius: 25px;
+            padding: 10px 40px 10px 20px;
+            width: 300px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 50px;
+            top: 30%;
+            color: #999;
+        }
+
+        .upload-icon {
+            position: absolute;
+            right: 20px;
+            top: 30%;
+            cursor: not-allowed;
+            color: #999;
+        }
+        .scent-container {
+            text-align: center; 
+            border-radius: 15px;
+            padding: 20px;
+            cursor: not-allowed;
+        }
+
+        .scent-container h1 {
+            font-size: 30px;
+            color: #4a4a4a;
+            margin-bottom: 15px;
+        }
+
+        .scent-container p {
+            font-size: 28px;
+            color: #666666;
+        }
+        
+        hr {
+            border: none; /* إزالة الحدود الافتراضية */
+            height: 5px; /* سمك الخط */
+            background-color: #ccc; /* لون الخط */
+            margin-top: 10%;/* مسافة فوق وتحت الخط */
+        }
+        .Title{
+            text-align:left; /* توسيط النص */
+            width: 100%; /* اجعل العرض 100% لتكون في منتصف البطاقة */
+            margin-bottom: 10vh;
+            font-size: 70px;
+            font-weight: 900;
+            color: rgb(17, 0, 255)!important;
+            text-shadow: 1px 1px 1px #000025, 1px 1.5px 1px #000025,
+            1px 2px 1px #000025,1px 2.5px 1px #000025,
+            1px 3px 1px #000025 , 1px 4px 1px #000025 ;
+        }
+        .blockk{
+            background: linear-gradient(to right, rgba(255, 0, 0, 0.514), rgba(0, 0, 255, 0.445));
+            width: 100%;
+        }
+        .section {
+            padding: 30px ;
+            background-color: #ffffff00;
+            
+            border-radius: 8px;
+            
+        }
+        .section h2 {
+            text-align: center;
+            margin-bottom: 1em;
+            color: #2c3e50;
+        }
+        .card {
+            background: linear-gradient(to right, rgb(217, 255, 0), rgb(253, 3, 3));
+            padding: 30px;
+            margin: 30px;
+            height: 50vh;
+            width: 900px;
+            display: flex;
+            gap: 200px;
+            border: 1px solid #ddd;
+            justify-content: space-between;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        .card .phot {
+            
+            height: 300px;
+            border-radius: 10px;
+            width: 300px;
+        }
+        
+        .titlee {
+            text-align:left; /* توسيط النص */
+            width: 100%; /* اجعل العرض 100% لتكون في منتصف البطاقة */
+            margin-bottom: 10vh;
+            font-size: 30px;
+            font-weight: 800;
+            color: rgb(4, 181, 187);
+            text-shadow: 1px 1px 1px #000025, 1px 1.5px 1px #000025,
+            1px 2px 1px #000025,1px 2.5px 1px #000025,
+            1px 3px 1px #000025 , 1px 4px 1px #000025 ;
+        }
+        .call-request{
+            display: inline-flex;
+            text-decoration: none;
+            background-color: #0088cc;
+            padding: 13px;
+            border-radius: 40%;
+            margin-top: 4%;
+            color: #ddd;
+            font-weight: 900;
+            
+        }
+        .card p{
+            font-size: large;
+            font-weight: 1000;
+        }
+        .price-list{
+            width: fit-content;
+        }
+        .container2{
+            width: 100%;
+        }
+        .offers {
+            float: left;
+            margin-left: 5%;
+            width: fit-content;
+        }
+
+        .proo {
+            float: left;
+            width: fit-content; /* Adjust the top position as needed */
+        }
+
+        .proo li{
+           list-style: none;
+           margin: 15px;
+           color: #fff;
+           cursor: pointer;
+           font-size: xx-large;
+           font-weight:800;
+           font-family: system-ui ;
+           letter-spacing: 3px;
+           text-shadow: 1px 1px 1px #c00588, 1px 1.5px 1px #c00588,
+           1px 2px 1px #c00588,1px 2.5px 1px #c00588,
+           1px 3px 1px #c00588 , 1px 4px 1px #c00588 ;
+        }
+        .proo li a{
+           color: #fff;
+           background: #0c01aa;
+           border-radius: 10px;
+           text-decoration: none;
+           padding: 15px 20px;
+           display: inline-block;
+           transition: 0.5s;
+           position: relative;
+           z-index: 10;
+           text-shadow: 1px 1px 1px #000025, 1px 1.5px 1px #000025,
+           1px 2px 1px #000025,1px 2.5px 1px #000025,
+           1px 3px 1px #000025 , 1px 4px 1px #000025 ;
+        }
+        .proo:hover li a{
+           opacity: 0;
+        }
+        .proo li a:hover{
+           transform: scale(1.2);
+           background: #3c004b;
+           opacity: 1;
+        }
+        #cars {
+            opacity: 0;
+            font-size: 20px;
+            color: #0800729a;
+            transition: 0.5s ease;
+            position: fixed; /* Make the element fixed to the viewport */
+            right: -1%; /* Center horizontally */
+            top: 20%; /* Center vertically */
+            transform: translate(-50%, -50%); /* Adjust centering using transform */
+            z-index: 100;
+        }
+        #cars:hover{
+            display: none;
+        }
+        #mob:hover{
+            display: none;
+        }
+        #Prop:hover{
+            display: none;
+        }
+        .cars:hover #cars {
+            opacity: 1;
+            font-size: 50px;
+            font-weight: 900;
+            color: #4cfd06f1;
+        }
+        #mob {
+            opacity: 0;
+            font-size: 20px;
+            color: #0800729a;
+            transition: 0.5s ease;
+            position: fixed; /* Make the element fixed to the viewport */
+            right: -1%; /* Center horizontally */
+            top: 20%; /* Center vertically */
+            transform: translate(-50%, -50%); /* Adjust centering using transform */
+            z-index: 100;
+        }
+
+        .mob:hover #mob {
+            opacity: 1;
+            font-weight: 900;
+            font-size: 50px;
+            color: #4cfd06f1;
+        }
+        #Prop {
+            opacity: 0;
+            font-size: 20px;
+            color: #0800729a;
+            transition: 0.5s ease;
+            position: fixed; /* Make the element fixed to the viewport */
+            right: -1%; /* Center horizontally */
+            top: 20%; /* Center vertically */
+            transform: translate(-50%, -50%); /* Adjust centering using transform */
+            z-index: 100;
+        }
+
+        .Prop:hover #Prop {
+            opacity: 1;
+            font-size: 50px;
+            font-weight: 900;
+            color: #4cfd06f1;
+        }
+        .benefits {
+            display: grid; /* Use CSS Grid layout */
+            grid-template-columns: repeat(2, 1fr); /* 2 columns */
+            gap: 40px; /* Space between cards */
+            margin: 20px; /* Margin around the entire section */
+            
+        }
+
+        .benefit {
+            background: #ffffff; /* Light background color for the card */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+            padding: 10px; /* Padding inside the card */
+            text-align: center; /* Center text */
+            transition: transform 0.3s; /* Smooth hover effect */
+            box-shadow: 0 2px 5px rgba(102, 255, 0, 0.363);
+        }
+
+        .benefit img {
+            width: auto; /* Full width */
+            height: 200px; /* Maintain aspect ratio */
+            border-radius: 10px; /* Round image corners */
+        }
+
+        .benefit h3 {
+            text-align:left; /* توسيط النص */
+            width: 100%; /* اجعل العرض 100% لتكون في منتصف البطاقة */
+            margin-bottom: 0;
+            font-size: 20px;
+            font-weight: 900;
+            color: rgb(17, 0, 255)!important;
+            text-shadow: 1px 1px 1px #000025, 1px 1.5px 1px #000025,
+            1px 2px 1px #000025,1px 2.5px 1px #000025,
+            1px 3px 1px #000025 , 1px 4px 1px #000025 ;
+        }
+
+        .benefit p {
+            font-size: 1em; /* Font size for the paragraph */
+            color: #666; /* Text color */
+            font-weight: 700;
+            bottom: 5%;
+        }
+
+        .benefit:hover {
+            transform: scale(1.05); /* Slightly enlarge card on hover */
+            box-shadow: 10px 20px 10px rgba(255, 0, 0, 0.884);
+        }
+        .Contact{
+            display: flex; /* Arrange children in a row */
+            flex-direction: row;
+        }
+        .Con{
+            margin: auto;
+        }
+        .Con i{
+            margin-bottom: 50px;
+            font-size: x-large;
+            cursor: pointer;
+        }
+        .Con i:hover{
+            color: #ffffff;
+        }
+        .about h2{
+            text-align: center;
+        }
+        .foot{
+            display: flex;
+            float: left;
+            width: 100px;
+            height: auto;
+            margin-bottom: 15px;
+            margin-left: 35px;
+        }
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 2em;
+            border-radius: 8px;
+            width: 300px;
+            text-align: center;
+        }
+        .modal-content input {
+            width: 100%;
+            padding: 0.5em;
+            margin: 0.5em 0;
+        }
+        .modal-content button {
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            padding: 0.5em;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .modal-content button:hover {
+            background-color: #34495e;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+            .hero {
+                height: 300px;
+                padding: 1em;
+            }
+            .hero h1 {
+                font-size: 2.5em;
+            }
+            .hero p {
+                font-size: 1.5em;
+            }
+            .contact-buttons {
+                top: 5px;
+                right: 5px;
+            }
+            .language-buttons {
+                top: 5px;
+                left: 5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-buttons a {
+                font-size: 1em;
+                padding: 0.5em;
+            }
+            .nav{
+                display: none;
+            }
+            .language-buttons button {
+                padding: 0.3em;
+                font-size: 0.8em;
+            }
+            .hero h1 {
+                font-size: 2em;
+            }
+            .hero p {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="contact-buttons">
+                <a href="https://wa.me/+201060233326" class="whatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://t.me/nhrawyyyy" class="telegram" target="_blank"><i class="fab fa-telegram"></i></a>
+                <a href="#" class="call-request" onclick="openModal()"><i class="fas fa-phone-alt"></i></a>
+            </div>
+            <div class="language-buttons">
+                <button onclick="changeLanguage('en')">EN</button>
+                <button onclick="changeLanguage('ar')">AR</button>
+                <button onclick="changeLanguage('ru')">RU</button>
+            </div>
+        </div>
+        <div class="nav">
+            <a href="#search-container">About Us</a>
+            <a href="#products">Products</a>
+            <a href="#price-list">Offers</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </header>
+    <section id="hero" class="hero">
+        <div class="container">
+            <h1>AMULETO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Store</h1>
+            <img class="imo" id="scroll-img" src="https://media1.giphy.com/media/3o7aDd4hAEcciOzcVW/source.gif" alt="">
+        </div>
+    </section>
+
+    <div class="blockk">
+        <div class="scent-container">
+            <h1>CHOOSE A SCENT FOR YOUR HOME</h1>
+            <h1>A properly selected scent can give you the key to a happier and more fulfilling life.</h1>
+            <p>
+                Find elements of positivity, peace, and harmony in your home.
+            </p>
+        </div>
+        <div class="search-container">
+            <input type="text" placeholder=" Search_Here ...." class="search-input">
+            <i class="fas fa-search search-icon"></i>
+            <input type="file" id="file-upload" style="display: none;">
+            <label for="file-upload" class="upload-icon"><i class="fas fa-upload"></i></label>
+        </div>
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <hr>
+        <section id="products" class="section">
+            <div class="container">
+                <h2 class="Title">Products</h2>
+                <!-- Example product cards -->
+                <div class="card">
+                    <div>
+                        <h3 class="titlee">Vetiver and Cardamom</h3>
+                        
+                        <p>Product Code: 169-4710-50860 </p>
+                        <p>Offer: 10%</p>
+                        <p>Price: $2 450</p>
+                        <a href="#" class="call-request" onclick="openModal()">Buy Now</a>
+                        <a class="call-request" href="https://amuletodicasa.ru/catalog/candles/vetiver-i-kardamon-candle/"  target="_blank">details</a>
+                    </div>
+                    <img class="phot" src="https://amuletodicasa.ru/upload/iblock/e97/wur8cb8ubcgawzguw3vx64sgt5o7x3b1.jpg" alt="Product Image">
+                </div>
+                <div class="card">
+                    <div>
+                        <h3 class="titlee">Grapefruit and pepper</h3>
+                        
+                        <p>Product Code: 169-5810-42890 </p>
+                        <p>Offer: 5%</p>
+                        <p>Price: $3 040 </p>
+                        <a href="#" class="call-request" onclick="openModal()">Buy Now</a>
+                        <a class="call-request" href="https://amuletodicasa.ru/catalog/diffusers/greypfrut-i-perets-diffuzor/"  target="_blank">details</a>
+                    </div>
+                    <img class="phot" src="https://amuletodicasa.ru/upload/iblock/a5f/mrxj9r1oqvttcd19jcizremv527346vb.jpg" alt="Product Image">
+                </div>
+                <div class="card">
+                    <div>
+                        <h3 class="titlee">Noble Saffron</h3>
+                        
+                        <p>Product Code: 169-7010-98745 </p>
+                        <p>Offer: 15%</p>
+                        <p>Price: $3 800</p>
+                        <a href="#" class="call-request" onclick="openModal()">Buy Now</a>
+                        <a class="call-request" href="https://amuletodicasa.ru/catalog/diffusers/blagorodnyy-shafran-diffuzor/"  target="_blank">details</a>
+                    </div>
+                    <img class="phot" src="https://amuletodicasa.ru/upload/iblock/d22/bzyavfzi4qw9tmqzp6iey5cpc7peb6tn.jpg" alt="Product Image">
+                </div>
+                <div class="card">
+                    <div>
+                        <h3 class="titlee">Orange and Basil</h3>
+                        
+                        <p>Product Code: 169-4450-12398 </p>
+                        <p>Offer: 0%</p>
+                        <p>Price: $1 960</p>
+                        <a href="#" class="call-request" onclick="openModal()">Buy Now</a>
+                        <a class="call-request" href="https://amuletodicasa.ru/catalog/diffusers/apelsin-i-bazilik-diffuzor/"  target="_blank">details</a>
+                    </div>
+                    <img class="phot" src="https://amuletodicasa.ru/upload/iblock/5f2/kv9ozl4x4dkdtgo4cy3ydy79mc6x3efz.jpg" alt="Product Image">
+                </div>
+                <div class="card">
+                    <div>
+                        <h3 class="titlee">Amber Resin</h3>
+                        
+                        <p>Product Code: 189-4430-48932 </p>
+                        <p>Offer: 30%</p>
+                        <p>Price: $4 450</p>
+                        <a href="#" class="call-request" onclick="openModal()">Buy Now</a>
+                        <a class="call-request" href="https://amuletodicasa.ru/catalog/diffusers/yantarnaya-smola-diffuzor/"  target="_blank">details</a>
+                    </div>
+                    <img class="phot" src="https://amuletodicasa.ru/upload/iblock/8e1/4qs4yj00pd0713qirv4qgtatvyz7hjxp.jpg" alt="Product Image">
+                </div>
+            </div>
+        </section>
+        <hr>
+        <section id="price-list" class="section">
+            <div class="container2">
+                <h2 class="Title">Offers</h2>
+                <div class="offers">
+                    <ul class="proo">
+                        <li class="cars">
+                            <a >Visit Our HeadQuarter</a>
+                            <i class="fas fa-handshake" id="cars">__ 20% Off</i>
+                        </li>
+                        <li class="Prop">
+                            <a >Buy More Than 5000$</a>
+                            <i class="fas fa-shopping-cart" id="Prop">__500$ Off</i>
+                        </li>
+                        <li  class="mob">
+                            <a >Subscribe Our Website</a>
+                            <i class="fas fa-gift" id="mob">__ Gift</i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <hr style="margin-top: 25%;">
+    
+        <section id="services" class="section">
+            <div class="container">
+                <h2 class="Title">Services</h2>
+                <div class="benefits">
+                    <div class="benefit">
+                        <h3>Service 1</h3>
+                        <img src="https://i.gifer.com/AYv1.gif" alt="Service 1 Photo" />
+                        <p>Shipping and Transportation ,, Delivery around the world</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>Service 2</h3>
+                        <img src="https://media0.giphy.com/media/kv62XrbYVzetBasv5r/giphy.gif?cid=6c09b95257fbx63ngt2k7tsaeehunum73uj6ryjfrk39euo9&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s" alt="Service 2 Photo" />
+                        
+                        <p>Product testing and quality check</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>Service 3</h3>
+                        <img src="https://media.lordicon.com/icons/wired/outline/2115-refund.gif" alt="Service 3 Photo" />
+                        
+                        <p>Refund within one month</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>Service 4</h3>
+                        <img src="https://media.tenor.com/n1AYVbwRmSgAAAAi/alien-alien-dance.gif" alt="Service 4 Photo" />
+                        
+                        <p>Ahmed Elnahrawy can put service here .. <a href="https://nahrawyy.github.io/ahmed/">CALL HIM</a></p>
+                    </div>
+                </div>                
+            </div>
+        </section>
+        <section id="contact" class="section" style="width: 90%;">
+            <div class="container" style="width: 90%;">
+                <h2>Contact</h2>
+                <div class="Contact">
+                    <div class="Con">
+                        <i class="fa fa-phone" >&nbsp;&nbsp;&nbsp; +7 (800) 551 49 74</i>
+                        <br>
+                        <i class="fa fa-envelope" >&nbsp;&nbsp;&nbsp; info@amuletodicasa.ru</i>
+                    </div>
+                    <div id="map" class="Con" style="height: 300px;">
+                        <!-- Replace with actual Yandex Maps embed code -->
+                        <iframe src="https://yandex.com/map-widget/v1/?um=constructor%3Ayour_map_id&source=constructor" width="100%" height="100%" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <img class="foot" src="https://amuletodicasa.ru/local/templates/amuletodicasa/assets/images/logos/light.svg" alt="">
+        <p>&copy; 2024 Online Store. All rights reserved to Ahmed Elnahrawy</p>
+    </footer>
+
+    <!-- Modal -->
+    <div id="callModal" class="modal">
+        <div class="modal-content">
+            <h2>Request a Call</h2>
+            <form>
+                <input type="text" placeholder="Name" required>
+                <input type="tel" placeholder="Phone : +201060233326" required>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        window.addEventListener('scroll', function() {
+            var scrollPosition = window.scrollY; // Get the current scroll position
+            var img = document.getElementById('scroll-img'); // Get the image element
+            var scaleValue = 1 + scrollPosition*1.5 / 1000; // Calculate the scale based on scroll
+            
+            // Limit the scaling to prevent it from growing indefinitely
+            if (scaleValue > 2) {
+                scaleValue = 2; // Maximum scale value
+            }
+            
+            // Apply the scale transformation to the image
+            img.style.transform = 'scale(' + scaleValue + ')';
+        });
+    </script>
+    
+
+    <script>
+        function openModal() {
+            document.getElementById('callModal').style.display = 'flex';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('callModal')) {
+                document.getElementById('callModal').style.display = 'none';
+            }
+        }
+
+        function changeLanguage(lang) {
+            let url = window.location.href;
+            if (lang === 'ar') {
+                url = url.replace('/en/', '/ar/');
+            } else if (lang === 'ru') {
+                url = url.replace('/en/', '/ru/');
+            } else {
+                url = url.replace(/\/(ar|ru)\//, '/en/');
+            }
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>
